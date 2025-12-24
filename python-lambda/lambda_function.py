@@ -74,20 +74,11 @@ def create_app():
     # Create an HTTP client for your API
     client = NoAuthClient(base_url="https://api.opendota.com/api")
 
-    # Custom function to remove outputSchema from auto-generated tools
-    def remove_output_schemas(route, component):
-        """Remove outputSchema from tools to prevent validation errors"""
-        # Check if this is a tool with an outputSchema
-        if hasattr(component, "outputSchema") and component.outputSchema is not None:
-            # Remove the outputSchema to prevent structured output validation
-            component.outputSchema = None
-
     # Create the FastMCP server fresh for each invocation
     mcp_server = FastMCP.from_openapi(
         openapi_spec=openapi_spec,
         client=client,
         name="OpenDota MCP",
-        mcp_component_fn=remove_output_schemas,
     )
     return mcp_server.http_app(path="/mcp", stateless_http=True, transport="http")
 
