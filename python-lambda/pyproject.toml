@@ -1,0 +1,13 @@
+[project]
+name = "opendotamcp-py"
+version = "0.1.0"
+description = "A FastAPI-OpenAPI integration for OpenDota API"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = ["fastmcp>=2.14.1", "httpx>=0.28.1", "mangum>=0.19.0"]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.14.10",
+    "uvicorn>=0.38.0",
+]
