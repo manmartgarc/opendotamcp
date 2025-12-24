@@ -70,43 +70,33 @@ npm run deploy
 
 ### Local AI Agent Integration
 
-Add to your AI agent's MCP configuration:
+Start the local server with `npm run dev:local`, then add to your AI agent's MCP configuration:
 
 ```json
 {
   "mcpServers": {
     "opendota": {
-      "command": "uvx",
-      "args": ["--from", "git+https://github.com/your-username/fastmcp-opendota", "fastmcp-opendota"],
-      "env": {}
+      "url": "http://127.0.0.1:8000/mcp"
     }
   }
 }
 ```
 
-### Remote API Usage
+### Remote API Integration
 
-After deployment, use the API Gateway endpoint:
+After deploying to AWS, add to your AI agent's MCP configuration:
 
-```bash
-# Your deployed API Gateway URL
-export MCP_API_URL="https://your-api-gateway-url.execute-api.region.amazonaws.com/prod"
-
-# List available MCP tools
-curl -X POST "$MCP_API_URL/tools/list" \
-  -H "Content-Type: application/json" \
-  -d '{}'
-
-# Call a tool (example: get player data)
-curl -X POST "$MCP_API_URL/tools/call" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "get_player_data",
-    "arguments": {"account_id": "123456789"}
-  }'
-
-# Health check
-curl -X GET "$MCP_API_URL/health"
+```json
+{
+  "mcpServers": {
+    "opendota": {
+      "url": "https://your-api-gateway-url.execute-api.region.amazonaws.com/prod/mcp",
+      "headers": {
+        "X-API-Key": "your-api-key-here"
+      }
+    }
+  }
+}
 ```
 
 ## 🎮 Available OpenDota Tools
